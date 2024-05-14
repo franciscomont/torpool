@@ -43,7 +43,7 @@
               |                                               |           
               +-----------------------------------------------+           
 ```
-🇧🇷 ### Como utilizar?
+🇧🇷 ## Como utilizar?
 
 1. **Instalação do Docker:**
    Antes de tudo, é necessário realizar a instalação do Docker. Você pode encontrar instruções detalhadas em [Instalação do Docker](https://docs.docker.com/engine/install/).
@@ -99,7 +99,7 @@ Para acessar o HAProxy, abra o navegador e vá para http://localhost:9500/haprox
 
 # Gostaria de expressar meu sincero agradecimento ao u1234x1234 pelo incrível projeto original torpool.
 
-🇺🇸 ### How to Use?
+🇺🇸 ## How to Use?
 
 1. **Install Docker:**
    First of all, you need to install Docker. You can find detailed instructions at [Docker Installation](https://docs.docker.com/engine/install/).
