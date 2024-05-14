@@ -18,8 +18,10 @@ RUN chown ${USERNAME}:${USERNAME} -R /etc/privoxy
 
 COPY start.py ./
 COPY haproxy.conf /etc/haproxy.conf
+COPY haproxy_username /run/secrets/haproxy_username
 COPY haproxy_password /run/secrets/haproxy_password
 RUN chown ${USERNAME}:${USERNAME} -R /etc/haproxy.conf
+RUN chown ${USERNAME}:${USERNAME} -R /run/secrets/haproxy_username
 RUN chown ${USERNAME}:${USERNAME} -R /run/secrets/haproxy_password
 
 USER ${USERNAME}
