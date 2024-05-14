@@ -3,17 +3,27 @@
 
 # torpool
 
-Containerized pool of multiple Tor instances with load balancing and HTTP proxy.
+🇧🇷 Um conjunto de contêineres com múltiplas instâncias do Tor, oferecendo balanceamento de carga e proxy HTTP.
 
-# Key features
+## Recursos Principais
 
-* Multiple [Tor](https://www.torproject.org/) instances with a single endpoint for the end user
-* Easy configured (IP rotation, country selection of the exit node, etc)
-* Lightweight alpine based Docker image
-* HTTP proxy with [Privoxy](https://www.privoxy.org/)
-* HTTP/Socks load balancing with [HAProxy](http://www.haproxy.org/)
-* Does not using root user inside Docker
+- Múltiplas instâncias do Tor com um único ponto de acesso para o usuário final
+- Configuração fácil (rotação de IP, seleção de país para o nó de saída, etc.)
+- Imagem Docker leve baseada no Alpine
+- Proxy HTTP com Privoxy
+- Balanceamento de carga HTTP/Socks com HAProxy
+- Não utiliza o usuário root dentro do Docker
 
+🇺🇸 A containerized pool of multiple Tor instances offering load balancing and HTTP proxy.
+
+## Key Features
+
+- Multiple Tor instances with a single endpoint for end-users
+- Easy configuration (IP rotation, country selection for exit node, etc.)
+- Lightweight Alpine-based Docker image
+- HTTP proxy with Privoxy
+- HTTP/Socks load balancing with HAProxy
+- Does not use the root user inside Docker
 ```
               +-----------------------------------------------+           
               | Docker                                        |           
@@ -33,60 +43,117 @@ Containerized pool of multiple Tor instances with load balancing and HTTP proxy.
               |                                               |           
               +-----------------------------------------------+           
 ```
+🇧🇷 ### Como utilizar?
+
+1. **Instalação do Docker:**
+   Antes de tudo, é necessário realizar a instalação do Docker. Você pode encontrar instruções detalhadas em [Instalação do Docker](https://docs.docker.com/engine/install/).
+
+2. **Clonar o repositório:**
+   Utilize o comando `git clone` para copiar o repositório do torpool:
+   ```bash
+   git clone https://github.com/franciscomont/torpool
+   ```
+
+4. **Definir a senha do haproxy_password:**
+   Caso deseje, defina a senha para o arquivo `haproxy_password`.
+   ```bash
+   nano haproxy_password
+   ```
+
+6. **Criar a imagem Docker:**
+   Após clonar o repositório e, se necessário, definir a senha do `haproxy_password`, crie a imagem Docker utilizando o comando:
+   ```bash
+   docker build -t torpool .
+   ```
+
+# Uso
+
+Inicie 5 instâncias do Tor:
+```bash
+docker run -d -p 9200:9200 -p 9300:9300 torpool --Tors=5
+```
+
+O proxy HTTP é acessível na porta 9300:
+```bash
+curl --proxy localhost:9300 http://ipinfo.io/ip
+```
+O Socks é acessível na porta 9200:
+```bash
+curl --socks5 localhost:9200 http://ipinfo.io/ip
+```
+
+Para fazer as instâncias do Tor rotacionarem:
+```bash
+docker run -d -p 9200:9200 -p 9300:9300 torpool --MaxCircuitDirtiness 30 --NewCircuitPeriod 30
+```
+Use apenas nós de saída dos EUA:
+```bash
+docker run -d -p 9200:9200 -p 9300:9300 torpool --ExitNodes {us}
+```
+[List of available Tor options](https://www.torproject.org/docs/tor-manual.html.en)
+
+
+```
+Para acessar o HAProxy, abra o navegador e vá para http://localhost:9500/haproxy_stats. Em seguida, insira o nome de usuário e senha. O nome de usuário padrão é `haproxy` por padrão, a senha está em branco.
+```
+
+# Gostaria de expressar meu sincero agradecimento ao u1234x1234 pelo incrível projeto original torpool.
+
+🇺🇸 ### How to Use?
+
+1. **Install Docker:**
+   First of all, you need to install Docker. You can find detailed instructions at [Docker Installation](https://docs.docker.com/engine/install/).
+
+2. **Clone the Repository:**
+   Use the `git clone` command to copy the torpool repository:
+   ```bash
+   git clone https://github.com/franciscomont/torpool
+   ```
+
+4. **Set the haproxy_password:**
+   If desired, set the password for the `haproxy_password` file.
+   ```bash
+   nano haproxy_password
+   ```
+
+6. **Build the Docker Image:**
+   After cloning the repository and, if necessary, setting the `haproxy_password`, build the Docker image using the command:
+   ```bash
+   docker build -t torpool .
+   ```
 
 # Usage
 
 Start 5 Tor instances:
 ```bash
-docker run -d -p 9200:9200 -p 9300:9300 u1234x1234/torpool:1.0.3 --Tors=5
+docker run -d -p 9200:9200 -p 9300:9300 torpool --Tors=5
 ```
 
-HTTP proxy is accessible at port 9300:
+The HTTP proxy is accessible on port 9300:
 ```bash
 curl --proxy localhost:9300 http://ipinfo.io/ip
 ```
-
-Socks is accessible at port 9200: 
+The Socks proxy is accessible on port 9200:
 ```bash
 curl --socks5 localhost:9200 http://ipinfo.io/ip
 ```
 
-To make Tor instances rotate:
+To make the Tor instances rotate:
+```bash
+docker run -d -p 9200:9200 -p 9300:9300 torpool --MaxCircuitDirtiness 30 --NewCircuitPeriod 30
 ```
-docker run -d -p 9200:9200 -p 9300:9300 u1234x1234/torpool:1.0.3 --MaxCircuitDirtiness 30 --NewCircuitPeriod 30
-```
-
 Use only US exit nodes:
+```bash
+docker run -d -p 9200:9200 -p 9300:9300 torpool --ExitNodes {us}
 ```
-docker run -d -p 9200:9200 -p 9300:9300 u1234x1234/torpool:1.0.3 --ExitNodes {us}
-```
-
 [List of available Tor options](https://www.torproject.org/docs/tor-manual.html.en)
 
-To view HAProxy stats page:
-```
-docker run -d -p 9200:9200 -p 9300:9300 -p 9500:9500 u1234x1234/torpool:1.0.3
-```
-Then open in browser http://localhost:9500/haproxy_stats and enter HAProxy username and password. The default username is `haproxy`, password is `password`, but it can be changed using using the volume mounting:
-```
-echo "pss" > pass_file
-docker run -d -p 9200:9200 -p 9300:9300 -p 9500:9500 -v "$PWD/pass_file":/run/secrets/haproxy_password u1234x1234/torpool:1.0.3
-```
-Expected password location: `/run/secrets/haproxy_password`, username: `/run/secrets/haproxy_username`.
 
-#### Docker-compose example:
-```yaml
-version: '3'
-services:
-  torpool:
-    image: u1234x1234/torpool:1.0.3
-    command: ['--Tors', '2', '--NewCircuitPeriod', '30', '--MaxCircuitDirtiness', '30']
-    container_name: torpool
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-      - "9500:9500"
 ```
+To access the HAProxy, open your browser and go to http://localhost:9500/haproxy_stats. Then, enter the username and password. The default username is `haproxy` and the password is left blank by default.
+```
+
+# I would like to express my sincere gratitude to u1234x1234 for the incredible original project torpool.
 
 # Why
 
