@@ -54,8 +54,13 @@
    git clone https://github.com/franciscomont/torpool
    ```
 
-4. **Definir a senha do haproxy_password:**
-   Caso deseje, defina a senha para o arquivo `haproxy_password`.
+4. **Definir usuário / senha para o haproxy:**
+   Caso deseje, defina o usuário no arquivo `haproxy_username`.
+   ```bash
+   nano haproxy_username
+   ```
+
+   Caso deseje, defina a senha no arquivo `haproxy_password`.
    ```bash
    nano haproxy_password
    ```
@@ -94,7 +99,7 @@ docker run -d -p 9200:9200 -p 9300:9300 torpool --ExitNodes {us}
 
 
 ```
-Para acessar o HAProxy, abra o navegador e vá para http://localhost:9500/haproxy_stats. Em seguida, insira o nome de usuário e senha. O nome de usuário padrão é `haproxy` por padrão, a senha está em branco.
+Para acessar o HAProxy, abra o navegador e vá para http://localhost:9500/haproxy_stats. Em seguida, insira o nome de usuário e senha. O nome de usuário padrão é `haproxy`, a senha está em branco por padrão.
 ```
 
 # Gostaria de expressar meu sincero agradecimento ao u1234x1234 pelo incrível projeto original torpool.
@@ -110,8 +115,13 @@ Para acessar o HAProxy, abra o navegador e vá para http://localhost:9500/haprox
    git clone https://github.com/franciscomont/torpool
    ```
 
-4. **Set the haproxy_password:**
-   If desired, set the password for the `haproxy_password` file.
+4. **Set username/password for haproxy:**
+   If desired, set the username in the `haproxy_username` file.
+   ```bash
+   nano haproxy_username
+   ```
+
+   If desired, set the password in the `haproxy_password` file.
    ```bash
    nano haproxy_password
    ```
