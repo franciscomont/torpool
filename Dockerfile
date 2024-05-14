@@ -1,6 +1,6 @@
-FROM haproxytech/haproxy-alpine:2.3.9
+FROM haproxytech/haproxy-alpine:latest
 
-LABEL maintainer="u1234x1234@gmail.com"
+LABEL maintainer="projetos@franciscomont.com.br"
 ENV USERNAME torpool
 
 RUN apk update && \
@@ -18,7 +18,9 @@ RUN chown ${USERNAME}:${USERNAME} -R /etc/privoxy
 
 COPY start.py ./
 COPY haproxy.conf /etc/haproxy.conf
+COPY haproxy_password /run/secrets/haproxy_password
 RUN chown ${USERNAME}:${USERNAME} -R /etc/haproxy.conf
+RUN chown ${USERNAME}:${USERNAME} -R /run/secrets/haproxy_password
 
 USER ${USERNAME}
 ENTRYPOINT [ "python3", "start.py"]
